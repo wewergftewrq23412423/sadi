@@ -1,5 +1,7 @@
 "use client"
 
+import { useEffect, useState } from "react"
+
 const screens = [
   { src: "/app-home.jpeg", alt: "Home screen showing voice training plan" },
   { src: "/app-explore.jpeg", alt: "Explore screen with voice exercises" },
@@ -7,8 +9,14 @@ const screens = [
 ]
 
 export function Visual() {
-  // Duplicate the list so the vertical translate loop is seamless.
-  const loop = [...screens, ...screens]
+  const [index, setIndex] = useState(0)
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setIndex((i) => (i + 1) % screens.length)
+    }, 2800)
+    return () => clearInterval(id)
+  }, [])
 
   return (
     <section className="relative px-6 pb-24 md:pb-32">
@@ -19,7 +27,7 @@ export function Visual() {
           className="pointer-events-none absolute inset-0 -z-10 mx-auto h-[560px] max-w-3xl rounded-full bg-white/[0.06] blur-3xl"
         />
 
-        <div className="relative mx-auto flex justify-center">
+        <div className="relative mx-auto flex flex-col items-center">
           {/* iPhone 15 frame */}
           <div className="relative w-[300px] md:w-[340px]">
             {/* Side buttons */}
@@ -51,15 +59,20 @@ export function Visual() {
                     <span className="absolute right-3 top-1/2 size-1.5 -translate-y-1/2 rounded-full bg-neutral-800" />
                   </div>
 
-                  {/* Auto-scrolling screenshots */}
+                  {/* Horizontal slider track */}
                   <div
-                    className="absolute inset-0 will-change-transform"
+                    className="flex h-full w-full transition-transform duration-700 ease-in-out"
                     style={{
-                      animation: "vox-phone-scroll 18s linear infinite",
+                      width: `${screens.length * 100}%`,
+                      transform: `translateX(-${index * (100 / screens.length)}%)`,
                     }}
                   >
-                    {loop.map((s, i) => (
-                      <div key={i} className="relative h-full w-full">
+                    {screens.map((s, i) => (
+                      <div
+                        key={i}
+                        className="relative h-full"
+                        style={{ width: `${100 / screens.length}%` }}
+                      >
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={s.src || "/placeholder.svg"}
@@ -81,6 +94,30 @@ export function Visual() {
             </div>
           </div>
 
+          {/* Pagination indicators */}
+          <div
+            className="mt-6 flex items-center gap-2"
+            role="tablist"
+            aria-label="App screen carousel"
+          >
+            {screens.map((s, i) => {
+              const active = i === index
+              return (
+                <button
+                  key={i}
+                  type="button"
+                  role="tab"
+                  aria-selected={active}
+                  aria-label={`Go to ${s.alt}`}
+                  onClick={() => setIndex(i)}
+                  className={`h-1.5 rounded-full transition-all duration-500 ease-out ${
+                    active ? "w-8 bg-white" : "w-1.5 bg-white/30 hover:bg-white/50"
+                  }`}
+                />
+              )
+            })}
+          </div>
+
           {/* Floating callouts */}
           <div className="absolute -left-4 top-16 hidden rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 backdrop-blur md:block">
             <p className="text-[10px] uppercase tracking-widest text-white/40">Latency</p>
@@ -93,16 +130,6 @@ export function Visual() {
           </div>
         </div>
       </div>
-
-      <style>{`
-        @keyframes vox-phone-scroll {
-          0%   { transform: translateY(0); }
-          100% { transform: translateY(-50%); }
-        }
-        @media (prefers-reduced-motion: reduce) {
-          [style*="vox-phone-scroll"] { animation: none !important; }
-        }
-      `}</style>
     </section>
   )
 }
