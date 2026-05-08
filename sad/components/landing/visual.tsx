@@ -1,95 +1,81 @@
-import { Mic, Pause } from "lucide-react"
+"use client"
 
-function Waveform() {
-  // A static, deterministic set of bar heights so SSR and CSR match.
-  const bars = [
-    18, 32, 56, 28, 72, 44, 88, 60, 38, 74, 52, 92, 48, 30, 66, 40, 78, 36, 84, 50, 24, 68, 46, 90, 54, 32, 70, 42, 80,
-    34, 58, 26,
-  ]
-
-  return (
-    <div className="flex h-24 items-center justify-center gap-[3px]">
-      {bars.map((h, i) => (
-        <span
-          key={i}
-          className="block w-[3px] rounded-full bg-gradient-to-t from-white/20 via-white/70 to-white"
-          style={{
-            height: `${h}%`,
-            animation: `vox-pulse 1.6s ease-in-out ${i * 0.04}s infinite alternate`,
-          }}
-        />
-      ))}
-    </div>
-  )
-}
+const screens = [
+  { src: "/app-home.jpeg", alt: "Home screen showing voice training plan" },
+  { src: "/app-explore.jpeg", alt: "Explore screen with voice exercises" },
+  { src: "/app-analysis.jpeg", alt: "Voice analysis results" },
+]
 
 export function Visual() {
+  // Duplicate the list so the vertical translate loop is seamless.
+  const loop = [...screens, ...screens]
+
   return (
     <section className="relative px-6 pb-24 md:pb-32">
       <div className="relative mx-auto max-w-5xl">
-        {/* Glow */}
+        {/* Ambient glow */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 -z-10 mx-auto h-[520px] max-w-3xl rounded-full bg-white/[0.06] blur-3xl"
+          className="pointer-events-none absolute inset-0 -z-10 mx-auto h-[560px] max-w-3xl rounded-full bg-white/[0.06] blur-3xl"
         />
 
         <div className="relative mx-auto flex justify-center">
-          {/* Phone frame */}
-          <div className="relative aspect-[9/19] w-[300px] rounded-[2.5rem] border border-white/10 bg-gradient-to-b from-white/[0.04] to-white/[0.01] p-3 shadow-[0_30px_120px_-20px_rgba(255,255,255,0.15)] md:w-[340px]">
-            {/* Inner screen */}
-            <div className="relative h-full w-full overflow-hidden rounded-[2rem] border border-white/10 bg-black">
-              {/* Notch */}
-              <div className="absolute left-1/2 top-2 z-10 h-5 w-24 -translate-x-1/2 rounded-full bg-black ring-1 ring-white/10" />
+          {/* iPhone 15 frame */}
+          <div className="relative w-[300px] md:w-[340px]">
+            {/* Side buttons */}
+            <span
+              aria-hidden
+              className="absolute -left-[3px] top-[110px] h-8 w-[3px] rounded-l-sm bg-neutral-800"
+            />
+            <span
+              aria-hidden
+              className="absolute -left-[3px] top-[160px] h-14 w-[3px] rounded-l-sm bg-neutral-800"
+            />
+            <span
+              aria-hidden
+              className="absolute -left-[3px] top-[220px] h-14 w-[3px] rounded-l-sm bg-neutral-800"
+            />
+            <span
+              aria-hidden
+              className="absolute -right-[3px] top-[180px] h-20 w-[3px] rounded-r-sm bg-neutral-800"
+            />
 
-              {/* Screen content */}
-              <div className="flex h-full flex-col px-5 pt-12 pb-6">
-                <div className="flex items-center justify-between text-[10px] text-white/50">
-                  <span>9:41</span>
-                  <span>Vox</span>
-                </div>
-
-                <div className="mt-8">
-                  <p className="text-xs uppercase tracking-widest text-white/40">Now recording</p>
-                  <h3 className="mt-1 text-xl font-medium tracking-tight text-white">Deep Tone · Studio</h3>
-                </div>
-
-                {/* Waveform card */}
-                <div className="relative mt-6 flex-1 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-5">
-                  <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
-
-                  <Waveform />
-
-                  <div className="mt-6 flex items-center justify-between text-[11px] text-white/50">
-                    <span className="font-mono">00:42</span>
-                    <span className="font-mono">02:18</span>
+            {/* Outer titanium bezel */}
+            <div className="relative aspect-[9/19.5] w-full rounded-[2.75rem] bg-gradient-to-b from-neutral-700 via-neutral-900 to-neutral-800 p-[3px] shadow-[0_40px_120px_-20px_rgba(0,0,0,0.8),0_0_0_1px_rgba(255,255,255,0.04)]">
+              {/* Inner frame */}
+              <div className="relative h-full w-full rounded-[2.6rem] bg-black p-[8px]">
+                {/* Screen */}
+                <div className="relative h-full w-full overflow-hidden rounded-[2.1rem] bg-black">
+                  {/* Dynamic Island */}
+                  <div className="absolute left-1/2 top-2 z-20 h-[26px] w-[95px] -translate-x-1/2 rounded-full bg-black ring-1 ring-white/5">
+                    <span className="absolute right-3 top-1/2 size-1.5 -translate-y-1/2 rounded-full bg-neutral-800" />
                   </div>
 
-                  <div className="mt-2 h-[2px] w-full overflow-hidden rounded-full bg-white/10">
-                    <div className="h-full w-1/3 rounded-full bg-white/80" />
+                  {/* Auto-scrolling screenshots */}
+                  <div
+                    className="absolute inset-0 will-change-transform"
+                    style={{
+                      animation: "vox-phone-scroll 18s linear infinite",
+                    }}
+                  >
+                    {loop.map((s, i) => (
+                      <div key={i} className="relative h-full w-full">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={s.src || "/placeholder.svg"}
+                          alt={s.alt}
+                          className="block h-full w-full object-cover"
+                          draggable={false}
+                        />
+                      </div>
+                    ))}
                   </div>
 
-                  <div className="mt-6 flex items-center justify-around">
-                    <button className="flex size-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-white/60">
-                      <span className="block h-2 w-2 rounded-full bg-white/60" />
-                    </button>
-                    <button className="flex size-14 items-center justify-center rounded-full bg-white text-black shadow-[0_0_30px_-5px_rgba(255,255,255,0.6)]">
-                      <Mic className="size-5" />
-                    </button>
-                    <button className="flex size-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-white/60">
-                      <Pause className="size-4" />
-                    </button>
-                  </div>
-                </div>
-
-                {/* Preset chips */}
-                <div className="mt-5 flex gap-2 text-[11px]">
-                  <span className="rounded-full border border-white/10 bg-white text-black px-3 py-1">Deep</span>
-                  <span className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-white/60">
-                    Warm
-                  </span>
-                  <span className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-white/60">
-                    Clear
-                  </span>
+                  {/* Subtle screen reflection */}
+                  <div
+                    aria-hidden
+                    className="pointer-events-none absolute inset-0 rounded-[2.1rem] bg-gradient-to-br from-white/[0.06] via-transparent to-transparent"
+                  />
                 </div>
               </div>
             </div>
@@ -109,9 +95,12 @@ export function Visual() {
       </div>
 
       <style>{`
-        @keyframes vox-pulse {
-          0% { transform: scaleY(0.4); opacity: 0.6; }
-          100% { transform: scaleY(1); opacity: 1; }
+        @keyframes vox-phone-scroll {
+          0%   { transform: translateY(0); }
+          100% { transform: translateY(-50%); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          [style*="vox-phone-scroll"] { animation: none !important; }
         }
       `}</style>
     </section>
