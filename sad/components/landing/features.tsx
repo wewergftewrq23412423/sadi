@@ -44,25 +44,33 @@ export function Features() {
           </p>
         </div>
 
-        <div className="mt-16 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {features.map((feature) => {
+        <div className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {features.map((feature, idx) => {
             const Icon = feature.icon
+            const accentColors = [
+              "from-cyan-500/20 to-blue-500/20",
+              "from-purple-500/20 to-pink-500/20",
+              "from-emerald-500/20 to-cyan-500/20",
+              "from-amber-500/20 to-orange-500/20",
+            ]
             return (
               <div
                 key={feature.title}
-                className="group relative overflow-hidden rounded-2xl border border-white/15 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-8 transition-all duration-300 hover:-translate-y-2 hover:border-white/25 hover:from-white/[0.12] hover:to-white/[0.06] hover:shadow-lg hover:shadow-white/5"
+                className="group relative overflow-hidden rounded-xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur-sm transition-all duration-300 hover:border-white/30 hover:bg-white/[0.06]"
               >
                 <div
                   aria-hidden
-                  className="pointer-events-none absolute -top-px left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-0 transition-opacity group-hover:opacity-100"
+                  className={`pointer-events-none absolute -top-1/2 -right-1/2 h-96 w-96 bg-gradient-to-br ${accentColors[idx]} opacity-0 blur-3xl transition-opacity duration-300 group-hover:opacity-40`}
                 />
 
-                <div className="flex size-12 items-center justify-center rounded-xl border border-white/15 bg-gradient-to-br from-white/[0.08] to-white/[0.02] text-white/90 transition-colors group-hover:border-white/25 group-hover:bg-gradient-to-br group-hover:from-white/[0.12] group-hover:to-white/[0.06] group-hover:text-white">
-                  <Icon className="size-6" />
-                </div>
+                <div className="relative">
+                  <div className="inline-flex items-center justify-center rounded-lg bg-white/5 p-3 backdrop-blur-sm">
+                    <Icon className="size-6 text-white/80 transition-colors group-hover:text-white" />
+                  </div>
 
-                <h3 className="mt-7 text-base font-semibold tracking-tight text-white">{feature.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-white/60">{feature.description}</p>
+                  <h3 className="mt-6 text-base font-semibold leading-tight text-white">{feature.title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-white/50 transition-colors group-hover:text-white/70">{feature.description}</p>
+                </div>
               </div>
             )
           })}
