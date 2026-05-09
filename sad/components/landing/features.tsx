@@ -44,25 +44,25 @@ export function Features() {
           </p>
         </div>
 
-        <div className="mt-16 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-16 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {features.map((feature) => {
             const Icon = feature.icon
             return (
               <div
                 key={feature.title}
-                className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-white/20 hover:bg-white/[0.04]"
+                className="group relative overflow-hidden rounded-2xl border border-white/15 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-8 transition-all duration-300 hover:-translate-y-2 hover:border-white/25 hover:from-white/[0.12] hover:to-white/[0.06] hover:shadow-lg hover:shadow-white/5"
               >
                 <div
                   aria-hidden
-                  className="pointer-events-none absolute -top-px left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 transition-opacity group-hover:opacity-100"
+                  className="pointer-events-none absolute -top-px left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-0 transition-opacity group-hover:opacity-100"
                 />
 
-                <div className="flex size-10 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] text-white">
-                  <Icon className="size-5" />
+                <div className="flex size-12 items-center justify-center rounded-xl border border-white/15 bg-gradient-to-br from-white/[0.08] to-white/[0.02] text-white/90 transition-colors group-hover:border-white/25 group-hover:bg-gradient-to-br group-hover:from-white/[0.12] group-hover:to-white/[0.06] group-hover:text-white">
+                  <Icon className="size-6" />
                 </div>
 
-                <h3 className="mt-6 text-base font-medium tracking-tight text-white">{feature.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-white/55">{feature.description}</p>
+                <h3 className="mt-7 text-base font-semibold tracking-tight text-white">{feature.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-white/60">{feature.description}</p>
               </div>
             )
           })}
