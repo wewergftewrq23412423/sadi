@@ -3,6 +3,7 @@ import { Hero } from "@/components/landing/hero"
 import { Visual } from "@/components/landing/visual"
 import { Features } from "@/components/landing/features"
 import { About } from "@/components/landing/about"
+import { Reviews } from "@/components/landing/reviews"
 import { FinalCta } from "@/components/landing/final-cta"
 import { Footer } from "@/components/landing/footer"
 
@@ -27,6 +28,7 @@ export default function Page() {
       <Visual />
       <Features />
       <About />
+      <Reviews />
       <FinalCta />
       <Footer />
     </main>
